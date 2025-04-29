@@ -1,11 +1,12 @@
-'use client';
-// in pages/index.tsx or app/page.tsx
-import dynamic from 'next/dynamic';
-const ClosetGrid = dynamic(
-  () => import('../components/ClosetGrid'),
-  { ssr: false }
-);
+// src/app/closet/page.tsx
+"use client";
 
-export default function Home() {
-  return <ClosetGrid />;
+import ClosetGrid from '../components/ClosetGrid';
+
+export default function Closet() {
+  return (
+    <div>
+      <ClosetGrid /> 
+    </div>
+  );
 }

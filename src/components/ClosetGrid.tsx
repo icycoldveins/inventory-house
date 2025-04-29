@@ -1,41 +1,74 @@
 "use client";
-import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import {
-  ClientSideRowModelModule,
-  ColDef,
+  AllCommunityModule,
+  GridApi,
+  GridOptions,
+  ModuleRegistry,
+  createGrid,
 } from "ag-grid-community";
-const ClosetGrid = () => {
-  const rowData=[
-    { name: "Shirt", category: "Clothes", quantity: 3, location: "Closet" },
-    { name: "MacBook", category: "Electronics", quantity: 1, location: "Desk" },
-  ];
+import "ag-grid-community/styles/ag-grid.css"; // optional; only if you need legacy/other styles
+import "ag-grid-community/styles/ag-theme-alpine.css";
 
-  const columnDefs: ColDef[] = [
-    { field: "name" },
-    { field: "category" },
-    { field: "quantity" },
-    { field: "location" },
-  ];
+ModuleRegistry.registerModules([AllCommunityModule]);
+
+interface IRow {
+  name: string;
+  category: string;
+  quantity: number;
+  location: string;
+}
+
+const gridOptions: GridOptions<IRow> = {
+  rowData: [
+    {
+      name: "MacBook Pro",
+      category: "Electronics",
+      quantity: 1,
+      location: "Office",
+    },
+    {
+      name: "iPhone",
+      category: "Electronics",
+      quantity: 2,
+      location: "Pocket",
+    },
+    { name: "Shirt", category: "Clothes", quantity: 3, location: "Closet" },
+    { name: "Sneakers", category: "Footwear", quantity: 2, location: "Locker" },
+  ],
+  columnDefs: [
+    { field: "name", headerName: "Name" },
+    { field: "category", headerName: "Category" },
+    { field: "quantity", headerName: "Quantity" },
+    { field: "location", headerName: "Location" },
+  ],
+  defaultColDef: {
+    flex: 1,
+    sortable: true,
+    filter: true,
+    resizable: true,
+    editable: true, // Allow cells to be edited
+  },
+};
+
+const ClosetGrid: React.FC = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  let gridApi: GridApi;
+
+  useEffect(() => {
+    if (gridRef.current) {
+      // Create the grid on the referenced div
+      gridApi = createGrid(gridRef.current, gridOptions);
+    }
+  }, []);
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-      <AgGridReact
-        rowData={rowData}
-        columnDefs={columnDefs}
-        modules={[ClientSideRowModelModule]}
-        stopEditingWhenCellsLoseFocus={true}
-        theme = "legacy"
-        defaultColDef={{
-          editable: true,
-          sortable: true,
-          filter: true,
-          resizable: true,
-        }}
-      />
-    </div>
+    <div
+      id="myGrid"
+      className="ag-theme-alpine"
+      ref={gridRef}
+      style={{ height: "400px", width: "100%" }}
+    ></div>
   );
 };
 
