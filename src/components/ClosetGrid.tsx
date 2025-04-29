@@ -21,7 +21,7 @@ interface IRow {
   location: string;
 }
 
-const ClosetGrid: React.FC = () => {
+const ClosetGrid = () => {
   const gridApi = useRef<GridApi | null>(null);
 
   const columnDefs = useMemo<ColDef[]>(
