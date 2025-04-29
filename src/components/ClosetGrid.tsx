@@ -1,22 +1,23 @@
 "use client";
 import { AgGridReact } from "ag-grid-react";
-import { ClientSideRowModelModule } from "ag-grid-community"; // <-- Add this import
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useState } from "react";
-import { ColDef } from "ag-grid-community";
-
+import {
+  ClientSideRowModelModule,
+  ColDef,
+} from "ag-grid-community";
 const ClosetGrid = () => {
-  const [rowData, setRowData] = useState([
+  const rowData=[
     { name: "Shirt", category: "Clothes", quantity: 3, location: "Closet" },
     { name: "MacBook", category: "Electronics", quantity: 1, location: "Desk" },
-  ]);
+  ];
 
   const columnDefs: ColDef[] = [
-    { field: "name", editable: true },
-    { field: "category", editable: true },
-    { field: "quantity", editable: true },
-    { field: "location", editable: true },
+    { field: "name" },
+    { field: "category" },
+    { field: "quantity" },
+    { field: "location" },
   ];
 
   return (
@@ -25,6 +26,14 @@ const ClosetGrid = () => {
         rowData={rowData}
         columnDefs={columnDefs}
         modules={[ClientSideRowModelModule]}
+        stopEditingWhenCellsLoseFocus={true}
+        theme = "legacy"
+        defaultColDef={{
+          editable: true,
+          sortable: true,
+          filter: true,
+          resizable: true,
+        }}
       />
     </div>
   );
