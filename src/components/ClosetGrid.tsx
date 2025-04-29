@@ -13,20 +13,12 @@ const ClosetGrid = () => {
   ]);
 
   const columnDefs: ColDef[] = [
-    { field: "name" },
-    { field: "category" },
-    { field: "quantity" },
-    { field: "location" },
+    { field: "name", editable: true },
+    { field: "category", editable: true },
+    { field: "quantity", editable: true },
+    { field: "location", editable: true },
   ];
 
-  const [newItem, setNewItem] = useState({
-    name: "",
-    category: "",
-    quantity: 1,
-    location: "",
-  });
-
-  
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
       <AgGridReact
