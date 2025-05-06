@@ -1,7 +1,7 @@
 // src/app/closet/page.tsx
 "use client";
 
-import ClosetGrid from '../components/ClosetGrid';
+import ClosetGrid from '../components/socialmediagrid';
 
 export default function Closet() {
   return (
