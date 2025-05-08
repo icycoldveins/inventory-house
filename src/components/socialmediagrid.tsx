@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useMemo } from "react";
+import React, { useEffect, useRef, useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import {
   AllCommunityModule,
@@ -24,6 +24,7 @@ interface IRow {
 
 const ClosetGrid = () => {
   const gridApi = useRef<GridApi | null>(null);
+  const [rowData, setRowData] = useState<IRow[]>([]);
 
   const columnDefs = useMemo<ColDef[]>(
     () => [
@@ -42,36 +43,13 @@ const ClosetGrid = () => {
       { field: "dateAdded", headerName: "Date Added", flex: 1 },
     ],
     []
+
   );
+  
+
 
   const gridOptions: GridOptions<IRow> = useMemo(
     () => ({
-      rowData: [
-        {
-          title: "Funny Cat Compilation",
-          platform: "TikTok",
-          url: "https://www.tiktok.com/@user/video/12345",
-          dateAdded: "2025-04-01",
-        },
-        {
-          title: "Sunset Photography",
-          platform: "Instagram",
-          url: "https://www.instagram.com/p/ABC123/",
-          dateAdded: "2025-03-28",
-        },
-        {
-          title: "DIY Home Decor",
-          platform: "TikTok",
-          url: "https://www.tiktok.com/@user/video/67890",
-          dateAdded: "2025-02-15",
-        },
-        {
-          title: "Travel Vlog",
-          platform: "Instagram",
-          url: "https://www.instagram.com/p/XYZ789/",
-          dateAdded: "2025-01-20",
-        },
-      ],
       columnDefs,
       defaultColDef: {
         flex: 1,
@@ -83,7 +61,6 @@ const ClosetGrid = () => {
     }),
     [columnDefs]
   );
-
   return (
     <div
       id="myGrid"
@@ -92,6 +69,7 @@ const ClosetGrid = () => {
     >
       <AgGridReact
         gridOptions={gridOptions}
+        rowData={rowData} 
         onGridReady={(params: GridReadyEvent<IRow>) => {
           gridApi.current = params.api;
         }}
